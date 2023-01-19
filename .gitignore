@@ -1,0 +1,7 @@
+**/__pycache__/
+**/*.env
+**/_media/*
+*.pyc
+*.pem
+*.log
+.pytest_cache/
