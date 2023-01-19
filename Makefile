@@ -1,3 +1,5 @@
+export PIPENV_VERBOSITY := -1
+
 lint:
 	@pipenv run black .
 	@pipenv run isort .

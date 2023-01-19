@@ -1,5 +1,7 @@
 from libqtile import layout
 
+from colors import Color
+
 
 class Columns(layout.Columns):
     def cmd_shuffle_left(self):
@@ -63,3 +65,68 @@ class Columns(layout.Columns):
             except IndexError:
                 return
             return
+
+
+class Max(layout.Max):
+    def cmd_shuffle_left(self):
+        client = self.group.qtile.current_window
+        # Move to left screen
+        screen_idx = self.group.qtile.current_screen.index - 1
+        if screen_idx < 0:
+            return
+        try:
+            client.cmd_toscreen(screen_idx)
+            client.qtile.focus_screen(screen_idx, False)
+        except IndexError:
+            return
+        return
+
+    def cmd_shuffle_right(self):
+        client = self.group.qtile.current_window
+        # Move to right screen
+        screen_idx = self.group.qtile.current_screen.index + 1
+        try:
+            client.cmd_toscreen(screen_idx)
+            client.qtile.focus_screen(screen_idx, False)
+        except IndexError:
+            return
+        return
+
+    def cmd_left(self):
+        screen_idx = self.group.qtile.current_screen.index - 1
+        if screen_idx < 0:
+            return
+        try:
+            self.group.qtile.focus_screen(screen_idx, False)
+        except IndexError:
+            return
+
+    def cmd_right(self):
+        screen_idx = self.group.qtile.current_screen.index + 1
+        if screen_idx < 0:
+            return
+        try:
+            self.group.qtile.focus_screen(screen_idx, False)
+        except IndexError:
+            return
+
+
+layouts = [
+    Columns(
+        border_focus=Color.RED.value,
+        border_focus_stack=Color.RED.value,
+        border_normal=Color.BLUE.value,
+        border_width=4,
+        border_on_single=True,
+        margin=3,
+        margin_on_single=5,
+        wrap_focus_columns=False,
+        wrap_focus_rows=False,
+        wrap_focus_stacks=False,
+    ),
+    Max(
+        border_focus=Color.BLUE.value,
+        border_width=4,
+        margin=3,
+    ),
+]

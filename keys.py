@@ -1,9 +1,13 @@
 import enum
 
-from libqtile.config import Key
+from libqtile import extension
+from libqtile.config import Click, Drag, Key
 from libqtile.lazy import lazy
 from libqtile.log_utils import logger
 from libqtile.utils import guess_terminal
+
+from colors import Color
+from commands import commands
 
 
 class Arrows(enum.Enum):
@@ -21,8 +25,6 @@ class Modifiers(enum.Enum):
 
 
 _terminal = guess_terminal()
-
-_wallpaper_name = "stanislausnationalforest"
 
 _focus_keys = [
     Key(
@@ -145,10 +147,26 @@ _shortcut_keys = [
         desc="Reload the config",
     ),
     Key(
+        [Modifiers.META.value, Modifiers.SHIFT.value],
+        "s",
+        lazy.spawn("flameshot gui"),
+        desc="Start a manual capture in GUI mode",
+    ),
+    Key(
         [Modifiers.META.value],
-        "r",
-        lazy.spawncmd(),
-        desc="Spawn a command using a prompt widget",
+        "m",
+        lazy.run_extension(
+            extension.CommandSet(
+                fontsize=14,
+                dmenu_prompt=">_ ",
+                foreground=Color.CYAN.value,
+                selected_foreground=Color.BACKGROUND.value,
+                selected_background=Color.CYAN.value,
+                commands={
+                    k: v for c in commands for k, v in c.as_command_set_dict().items()
+                },
+            )
+        ),
     ),
 ]
 
@@ -158,14 +176,49 @@ _media_keys = [
         [],
         "XF86AudioRaiseVolume",
         lazy.spawn("amixer sset 'Master' 5%+"),
-        desc="Launch terminal",
+        desc="Increase volume",
     ),
     Key(
         [],
         "XF86AudioLowerVolume",
         lazy.spawn("amixer sset 'Master' 5%-"),
-        desc="Launch terminal",
+        desc="Decrease volume",
+    ),
+    Key(
+        [],
+        "XF86AudioPlay",
+        lazy.spawn("playerctl play-pause"),
+        desc="Play/Pause music",
+    ),
+    Key(
+        [],
+        "XF86AudioNext",
+        lazy.spawn("playerctl next"),
+        desc="Next music",
+    ),
+    Key(
+        [],
+        "XF86AudioPrev",
+        lazy.spawn("playerctl previous"),
+        desc="Previous music",
     ),
 ]
 
 keys = _focus_keys + _move_keys + _resize_keys + _shortcut_keys + _media_keys
+
+mouse = [
+    Drag(
+        [Modifiers.META.value],
+        "Button1",
+        lazy.window.set_position_floating(),
+        start=lazy.window.get_position(),
+    ),
+    Drag(
+        [Modifiers.META.value],
+        "Button3",
+        lazy.window.set_size_floating(),
+        start=lazy.window.get_size(),
+    ),
+    Click([Modifiers.META.value], "Button3", lazy.window.toggle_floating()),
+    Click([Modifiers.META.value], "Button2", lazy.window.toggle_fullscreen()),
+]
