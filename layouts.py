@@ -113,8 +113,7 @@ class Max(layout.Max):
 
 layouts = [
     Columns(
-        border_focus=Color.RED.value,
-        border_focus_stack=Color.RED.value,
+        border_focus=Color.CYAN.value,
         border_normal=Color.BLUE.value,
         border_width=4,
         border_on_single=True,
@@ -125,7 +124,8 @@ layouts = [
         wrap_focus_stacks=False,
     ),
     Max(
-        border_focus=Color.BLUE.value,
+        border_focus=Color.CYAN.value,
+        border_normal=Color.BLUE.value,
         border_width=4,
         margin=3,
     ),

@@ -169,4 +169,8 @@ def shared_task_list():
         highlight_method="border",
         rounded=True,
         icon_size=0,
+        margin_x=3,
+        margin_y=1,
+        max_title_width=150,
+        unfocused_border=Color.GRAY.value,
     )

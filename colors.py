@@ -4,7 +4,7 @@ import enum
 class Color(enum.Enum):
     BACKGROUND = "#282a36"
     FOREGROUND = "#f8f8f2"
-    GREY = "#44475a"
+    GRAY = "#44475a"
     BLUE = "#6272a4"
     CYAN = "#8be9fd"
     GREEN = "#3caea3"

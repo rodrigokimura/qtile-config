@@ -1,7 +1,7 @@
 import enum
 
 from libqtile import extension
-from libqtile.config import Click, Drag, Key
+from libqtile.config import Click, Drag, Group, Key
 from libqtile.lazy import lazy
 from libqtile.log_utils import logger
 from libqtile.utils import guess_terminal
@@ -154,7 +154,13 @@ _shortcut_keys = [
     ),
     Key(
         [Modifiers.META.value],
-        "m",
+        "e",
+        lazy.spawn("thunar"),
+        desc="Open file manager",
+    ),
+    Key(
+        [Modifiers.META.value],
+        "Space",
         lazy.run_extension(
             extension.CommandSet(
                 fontsize=14,
