@@ -172,5 +172,7 @@ def shared_task_list():
         margin_x=3,
         margin_y=1,
         max_title_width=150,
+        title_width_method="uniform",
+        width=200,
         unfocused_border=Color.GRAY.value,
     )

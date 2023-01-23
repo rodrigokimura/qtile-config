@@ -23,15 +23,8 @@ def _main_screen():
         top=bar.Bar(
             size=top_bar_size,
             widgets=[
-                widget.Spacer(bar.STRETCH),
-                *RightPowerline(
-                    widget.CPU(
-                        fmt="{}",
-                        background=Color.BLUE.value,
-                        mouse_callbacks={
-                            "Button1": lazy.spawn(_terminal + " -e bashtop")
-                        },
-                    ),
+                *LeftPowerline(
+                    widget.ThermalSensor(background=Color.RED.value),
                     widget.CPUGraph(
                         type="line",
                         border_width=1,
@@ -43,8 +36,9 @@ def _main_screen():
                             "Button1": lazy.spawn(_terminal + " -e bashtop")
                         },
                     ),
-                    widget.Memory(
-                        background=Color.GREEN.value,
+                    widget.CPU(
+                        fmt="{}",
+                        background=Color.BLUE.value,
                         mouse_callbacks={
                             "Button1": lazy.spawn(_terminal + " -e bashtop")
                         },
@@ -60,7 +54,12 @@ def _main_screen():
                             "Button1": lazy.spawn(_terminal + " -e bashtop")
                         },
                     ),
-                    widget.Net(background=Color.PURPLE.value),
+                    widget.Memory(
+                        background=Color.GREEN.value,
+                        mouse_callbacks={
+                            "Button1": lazy.spawn(_terminal + " -e bashtop")
+                        },
+                    ),
                     widget.NetGraph(
                         type="line",
                         border_width=1,
@@ -69,28 +68,33 @@ def _main_screen():
                         border_color=Color.FOREGROUND.value,
                         background=Color.PURPLE.value,
                     ),
-                    widget.ThermalSensor(background=Color.RED.value),
+                    widget.Net(background=Color.PURPLE.value),
+                ).widgets,
+                widget.Spacer(bar.STRETCH),
+                *RightPowerline(
                     widget.OpenWeather(
                         background=Color.ORANGE.value,
                         location="Maringa, BR",
                         format="{main_temp: .0f}°{units_temperature} {icon} ({weather_details})",
                     ),
+                    widget.Volume(
+                        background=Color.GREEN.value,
+                        emoji=True,
+                        fmt="Vol: {}",
+                        mouse_callbacks={"Button3": lazy.spawn("pavucontrol -t 5")},
+                    ),
+                    widget.Volume(
+                        background=Color.GREEN.value,
+                        emoji=False,
+                        fmt="{}",
+                        mouse_callbacks={"Button3": lazy.spawn("pavucontrol -t 5")},
+                    ),
+                    widget.Systray(
+                        background=Color.RED.value,
+                    ),
                     terminator_size=top_bar_size - 2,
                     # widget.Bluetooth(),
                 ).widgets,
-                widget.Sep(),
-                widget.Volume(
-                    emoji=True,
-                    fmt="Vol: {}",
-                    mouse_callbacks={"Button3": lazy.spawn("pavucontrol -t 5")},
-                ),
-                widget.Volume(
-                    emoji=False,
-                    fmt="{}",
-                    mouse_callbacks={"Button3": lazy.spawn("pavucontrol -t 5")},
-                ),
-                widget.Sep(),
-                widget.Systray(),
             ],
             margin=0,
             border_width=0,
@@ -115,21 +119,18 @@ def _main_screen():
                     terminator_size=bottom_bar_size - 2,
                 ).widgets,
                 shared_task_list(),
-                widget.Spacer(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
                 *RightPowerline(
                     widget.Clipboard(
-                        background=Color.CYAN.value,
+                        fmt="📋 {}",
+                        background=Color.GREEN.value,
+                        max_width=20,
                     ),
                     widget.Notify(
                         fmt="🔔 {} ",
                         background=Color.GREEN.value,
                         audiofile=f"{CUR_DIR}/beep.wav",
+                        scroll=True,
+                        width=200,
                     ),
                     widget.Clock(
                         format="📅 %d/%m/%Y %a 🕑 %H:%M",
