@@ -1,9 +1,10 @@
 import math
-from typing import Any, List
+from typing import Any, Iterable, List
 
 from libqtile import widget
 from libqtile.widget.base import _Widget
 from libqtile.widget.textbox import TextBox
+from libqtile.widget.volume import Volume
 
 from colors import Color
 
@@ -62,6 +63,18 @@ class Terminator(TextBox):
             self._scroll_timer = self.timeout_add(interval, self.do_scroll)
 
 
+class Volume(Volume):
+    def _update_drawer(self):
+        super()._update_drawer()
+        full_block = "█"
+        empty_block = "▓"
+        progress_bar = (
+            int(self.volume / 10) * full_block
+            + (10 - int(self.volume / 10)) * empty_block
+        )
+        self.text = f" {progress_bar} {str(self.volume).rjust(3)}%"
+
+
 def left_terminator(foreground, background, fontsize=26):
     return Terminator(
         fmt="",
@@ -95,7 +108,7 @@ class RightPowerline:
         self,
         *widgets: List[_Widget],
         terminator_size: int = 24,
-        background: str = Color.BACKGROUND.value
+        background: str = Color.BACKGROUND.value,
     ) -> None:
         self._widgets = []
         first = widgets[0]
@@ -124,19 +137,28 @@ class LeftPowerline:
         self,
         *widgets: List[_Widget],
         terminator_size: int = 24,
-        background: str = Color.BACKGROUND.value
+        background: str = Color.BACKGROUND.value,
     ) -> None:
         self._widgets = []
         for i in range(len(widgets)):
             current = widgets[i]
-            self._widgets.append(current)
+            if isinstance(current, Iterable):
+                current = current[0]
+                for w in widgets[i]:
+                    self._widgets.append(w)
+            else:
+                self._widgets.append(current)
             if i == len(widgets) - 1:
                 break
             next = widgets[i + 1]
+            if isinstance(next, Iterable):
+                next = next[0]
             self._widgets.append(
                 right_terminator(current.background, next.background, terminator_size)
             )
         last = widgets[-1]
+        if isinstance(last, Iterable):
+            last = last[-1]
         self._widgets.append(
             right_terminator(last.background, background, terminator_size)
         )

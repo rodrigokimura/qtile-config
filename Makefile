@@ -5,4 +5,5 @@ lint:
 	@pipenv run isort .
 
 logs:
-	@cat ~/.local/share/qtile/qtile.log | grep "====>"
+	@cat ~/.local/share/qtile/qtile.log
+

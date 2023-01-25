@@ -1,4 +1,4 @@
-from libqtile import layout
+from libqtile import hook, layout
 from libqtile.config import Match
 
 from colors import Color
@@ -44,4 +44,11 @@ focus_on_window_activation = "smart"
 reconfigure_screens = True
 auto_minimize = True
 wl_input_rules = None
-wmname = "LG3D"
+wmname = "qtile"
+
+
+@hook.subscribe.startup
+def autostart(*args, **kwargs):
+    import subprocess
+
+    subprocess.Popen(["picom", "--experimental-backends"])

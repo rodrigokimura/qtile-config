@@ -1,13 +1,14 @@
 import enum
+import os
 
 from libqtile import extension
-from libqtile.config import Click, Drag, Group, Key
+from libqtile.config import Click, Drag, Key
 from libqtile.lazy import lazy
-from libqtile.log_utils import logger
-from libqtile.utils import guess_terminal
 
 from colors import Color
 from commands import commands
+
+CUR_DIR = os.path.realpath(os.path.dirname(__file__))
 
 
 class Arrows(enum.Enum):
@@ -24,7 +25,7 @@ class Modifiers(enum.Enum):
     SHIFT = "shift"
 
 
-_terminal = guess_terminal()
+_terminal = "kitty"
 
 _focus_keys = [
     Key(
@@ -155,7 +156,7 @@ _shortcut_keys = [
     Key(
         [Modifiers.META.value],
         "e",
-        lazy.spawn("thunar"),
+        lazy.spawn(_terminal + " -e ranger"),
         desc="Open file manager",
     ),
     Key(
@@ -182,12 +183,14 @@ _media_keys = [
         [],
         "XF86AudioRaiseVolume",
         lazy.spawn("amixer sset 'Master' 5%+"),
+        lazy.spawn(f"aplay '{CUR_DIR}/beep2.wav'"),
         desc="Increase volume",
     ),
     Key(
         [],
         "XF86AudioLowerVolume",
         lazy.spawn("amixer sset 'Master' 5%-"),
+        lazy.spawn(f"aplay '{CUR_DIR}/beep2.wav'"),
         desc="Decrease volume",
     ),
     Key(

@@ -3,14 +3,13 @@ import os
 from libqtile import bar, widget
 from libqtile.config import Screen
 from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
 
 from colors import Color
-from widgets import LeftPowerline, RightPowerline, shared_task_list
+from widgets import LeftPowerline, RightPowerline, Volume, shared_task_list
 
 CUR_DIR = os.path.realpath(os.path.dirname(__file__))
 
-_terminal = guess_terminal()
+_terminal = "kitty"
 _wallpaper_name = "stanislausnationalforest"
 
 
@@ -24,51 +23,58 @@ def _main_screen():
             size=top_bar_size,
             widgets=[
                 *LeftPowerline(
-                    widget.ThermalSensor(background=Color.RED.value),
-                    widget.CPUGraph(
-                        type="line",
-                        border_width=1,
-                        line_width=1,
-                        graph_color=Color.FOREGROUND.value,
-                        border_color=Color.FOREGROUND.value,
-                        background=Color.BLUE.value,
-                        mouse_callbacks={
-                            "Button1": lazy.spawn(_terminal + " -e bashtop")
-                        },
+                    widget.ThermalSensor(fmt=" {}", background=Color.RED.value),
+                    (
+                        widget.CPU(
+                            fmt=" {}",
+                            background=Color.BLUE.value,
+                            mouse_callbacks={
+                                "Button1": lazy.spawn(_terminal + " -e bashtop")
+                            },
+                        ),
+                        widget.CPUGraph(
+                            type="line",
+                            border_width=1,
+                            line_width=1,
+                            graph_color=Color.FOREGROUND.value,
+                            border_color=Color.FOREGROUND.value,
+                            background=Color.BLUE.value,
+                            mouse_callbacks={
+                                "Button1": lazy.spawn(_terminal + " -e bashtop")
+                            },
+                        ),
                     ),
-                    widget.CPU(
-                        fmt="{}",
-                        background=Color.BLUE.value,
-                        mouse_callbacks={
-                            "Button1": lazy.spawn(_terminal + " -e bashtop")
-                        },
+                    (
+                        widget.Memory(
+                            fmt="{}",
+                            background=Color.GREEN.value,
+                            mouse_callbacks={
+                                "Button1": lazy.spawn(_terminal + " -e bashtop")
+                            },
+                        ),
+                        widget.MemoryGraph(
+                            type="line",
+                            border_width=1,
+                            line_width=1,
+                            graph_color=Color.FOREGROUND.value,
+                            border_color=Color.FOREGROUND.value,
+                            background=Color.GREEN.value,
+                            mouse_callbacks={
+                                "Button1": lazy.spawn(_terminal + " -e bashtop")
+                            },
+                        ),
                     ),
-                    widget.MemoryGraph(
-                        type="line",
-                        border_width=1,
-                        line_width=1,
-                        graph_color=Color.FOREGROUND.value,
-                        border_color=Color.FOREGROUND.value,
-                        background=Color.GREEN.value,
-                        mouse_callbacks={
-                            "Button1": lazy.spawn(_terminal + " -e bashtop")
-                        },
+                    (
+                        widget.Net(fmt=" {}", background=Color.PURPLE.value),
+                        widget.NetGraph(
+                            type="line",
+                            border_width=1,
+                            line_width=1,
+                            graph_color=Color.FOREGROUND.value,
+                            border_color=Color.FOREGROUND.value,
+                            background=Color.PURPLE.value,
+                        ),
                     ),
-                    widget.Memory(
-                        background=Color.GREEN.value,
-                        mouse_callbacks={
-                            "Button1": lazy.spawn(_terminal + " -e bashtop")
-                        },
-                    ),
-                    widget.NetGraph(
-                        type="line",
-                        border_width=1,
-                        line_width=1,
-                        graph_color=Color.FOREGROUND.value,
-                        border_color=Color.FOREGROUND.value,
-                        background=Color.PURPLE.value,
-                    ),
-                    widget.Net(background=Color.PURPLE.value),
                 ).widgets,
                 widget.Spacer(bar.STRETCH),
                 *RightPowerline(
@@ -77,23 +83,22 @@ def _main_screen():
                         location="Maringa, BR",
                         format="{main_temp: .0f}°{units_temperature} {icon} ({weather_details})",
                     ),
-                    widget.Volume(
+                    Volume(
                         background=Color.GREEN.value,
                         emoji=True,
-                        fmt="Vol: {}",
+                        fmt="{} ",
+                        step=5,
                         mouse_callbacks={"Button3": lazy.spawn("pavucontrol -t 5")},
                     ),
-                    widget.Volume(
-                        background=Color.GREEN.value,
-                        emoji=False,
-                        fmt="{}",
-                        mouse_callbacks={"Button3": lazy.spawn("pavucontrol -t 5")},
+                    widget.Bluetooth(
+                        hci="/dev_44_73_D6_A4_E8_6C",
+                        background=Color.RED.value,
+                        fmt=" {} ",
                     ),
                     widget.Systray(
                         background=Color.RED.value,
                     ),
                     terminator_size=top_bar_size - 2,
-                    # widget.Bluetooth(),
                 ).widgets,
             ],
             margin=0,
@@ -133,13 +138,14 @@ def _main_screen():
                         width=200,
                     ),
                     widget.Clock(
-                        format="📅 %d/%m/%Y %a 🕑 %H:%M",
+                        format="📅 %d/%m/%Y %a 🕑 %H:%M ",
                         background=Color.BLUE.value,
-                    ),
-                    widget.QuickExit(
-                        default_text="[X]",
-                        countdown_format="[{}]",
-                        background=Color.RED.value,
+                        mouse_callbacks={
+                            "Button1": lazy.spawn(
+                                _terminal
+                                + ' --hold -e python3 -c "from datetime import datetime; from calendar import TextCalendar; now = datetime.now(); TextCalendar().prmonth(now.year, now.month)"'
+                            )
+                        },
                     ),
                 ).widgets,
             ],
