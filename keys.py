@@ -160,8 +160,13 @@ _shortcut_keys = [
         desc="Open file manager",
     ),
     Key(
-        [Modifiers.META.value],
-        "Space",
+        [
+            Modifiers.SHIFT.value,
+            Modifiers.CTRL.value,
+            Modifiers.ALT.value,
+            Modifiers.META.value,
+        ],
+        "d",
         lazy.run_extension(
             extension.CommandSet(
                 fontsize=14,
