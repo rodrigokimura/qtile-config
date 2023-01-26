@@ -130,13 +130,6 @@ def _main_screen():
                         background=Color.GREEN.value,
                         max_width=20,
                     ),
-                    widget.Notify(
-                        fmt="🔔 {} ",
-                        background=Color.GREEN.value,
-                        audiofile=f"{CUR_DIR}/beep.wav",
-                        scroll=True,
-                        width=200,
-                    ),
                     widget.Clock(
                         format="📅 %d/%m/%Y %a 🕑 %H:%M ",
                         background=Color.BLUE.value,
