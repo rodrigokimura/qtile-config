@@ -1,4 +1,5 @@
 import math
+import subprocess
 from typing import Any, Iterable, List
 
 from libqtile import widget
@@ -73,6 +74,8 @@ class Volume(Volume):
             + (10 - int(self.volume / 10)) * empty_block
         )
         self.text = f" {progress_bar} {str(self.volume).rjust(3)}%"
+
+        subprocess.Popen(["dunstify", f"Volume: ", "-h", f"int:value:{self.volume}"])
 
 
 def left_terminator(foreground, background, fontsize=26):
