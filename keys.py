@@ -7,8 +7,8 @@ from libqtile.lazy import lazy
 
 from colors import Color
 from commands import commands
+from meta_config import TERMINAL, CUR_DIR
 
-CUR_DIR = os.path.realpath(os.path.dirname(__file__))
 
 
 class Arrows(enum.Enum):
@@ -24,8 +24,6 @@ class Modifiers(enum.Enum):
     CTRL = "control"
     SHIFT = "shift"
 
-
-_terminal = "kitty"
 
 _focus_keys = [
     Key(
@@ -131,7 +129,7 @@ _shortcut_keys = [
     Key(
         [Modifiers.META.value],
         "Return",
-        lazy.spawn(_terminal),
+        lazy.spawn(TERMINAL),
         desc="Launch terminal",
     ),
     Key(
@@ -156,7 +154,7 @@ _shortcut_keys = [
     Key(
         [Modifiers.META.value],
         "e",
-        lazy.spawn(_terminal + " -e ranger"),
+        lazy.spawn(TERMINAL + " -e ranger"),
         desc="Open file manager",
     ),
     Key(

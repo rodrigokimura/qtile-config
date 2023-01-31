@@ -5,14 +5,11 @@ from libqtile.config import Screen
 from libqtile.lazy import lazy
 
 from colors import Color
-from meta_config import BLUETOOTH_DEVICE
+from meta_config import BLUETOOTH_DEVICE, TERMINAL
 from scripts import toggle_audio_profile
 from widgets import GenericVolume as Volume
 from widgets import LeftPowerline, RightPowerline, shared_task_list
 
-CUR_DIR = os.path.realpath(os.path.dirname(__file__))
-
-_terminal = "kitty"
 
 
 def _main_screen():
@@ -29,7 +26,7 @@ def _main_screen():
                             fmt=" {}",
                             background=Color.BLUE.value,
                             mouse_callbacks={
-                                "Button1": lazy.spawn(_terminal + " -e bashtop")
+                                "Button1": lazy.spawn(TERMINAL + " -e bashtop")
                             },
                         ),
                         widget.CPUGraph(
@@ -40,7 +37,7 @@ def _main_screen():
                             border_color=Color.FOREGROUND.value,
                             background=Color.BLUE.value,
                             mouse_callbacks={
-                                "Button1": lazy.spawn(_terminal + " -e bashtop")
+                                "Button1": lazy.spawn(TERMINAL + " -e bashtop")
                             },
                         ),
                     ),
@@ -49,7 +46,7 @@ def _main_screen():
                             fmt="{}",
                             background=Color.GREEN.value,
                             mouse_callbacks={
-                                "Button1": lazy.spawn(_terminal + " -e bashtop")
+                                "Button1": lazy.spawn(TERMINAL + " -e bashtop")
                             },
                         ),
                         widget.MemoryGraph(
@@ -60,7 +57,7 @@ def _main_screen():
                             border_color=Color.FOREGROUND.value,
                             background=Color.GREEN.value,
                             mouse_callbacks={
-                                "Button1": lazy.spawn(_terminal + " -e bashtop")
+                                "Button1": lazy.spawn(TERMINAL + " -e bashtop")
                             },
                         ),
                     ),
@@ -85,12 +82,8 @@ def _main_screen():
                     ),
                     Volume(
                         background=Color.GREEN.value,
-                        emoji=True,
-                        fmt="{} ",
-                        step=5,
                         mouse_callbacks={
                             "Button3": lazy.spawn("pavucontrol -t 5"),
-                            "Button1": toggle_audio_profile,
                         },
                     ),
                     widget.Bluetooth(
@@ -138,7 +131,7 @@ def _main_screen():
                         background=Color.BLUE.value,
                         mouse_callbacks={
                             "Button1": lazy.spawn(
-                                _terminal
+                                TERMINAL
                                 + ' --hold -e python3 -c "from datetime import datetime; from calendar import TextCalendar; now = datetime.now(); TextCalendar().prmonth(now.year, now.month)"'
                             )
                         },

@@ -9,6 +9,7 @@ from libqtile.widget.textbox import TextBox
 from libqtile.widget.volume import Volume
 
 from colors import Color
+from scripts import decrease_volume, increase_volume, toggle_audio_profile
 
 
 class Terminator(TextBox):
@@ -72,6 +73,12 @@ class GenericVolume(GenPollText):
         self.func = self._poll_func
         self.update_interval = 0.2
         self._txt = ""
+        self.mouse_callbacks = {
+            **self.mouse_callbacks,
+            "Button1": toggle_audio_profile,
+            "Button4": increase_volume,
+            "Button5": decrease_volume,
+        }
 
     def _get_volume(self):
         result = subprocess.check_output("pulsemixer --get-volume".split())

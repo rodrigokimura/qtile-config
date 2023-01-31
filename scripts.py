@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional, Sequence, Tuple
 from libqtile.config import Screen
 from libqtile.log_utils import logger
 
-from meta_config import BLUETOOTH_DEVICE
+from meta_config import BLUETOOTH_DEVICE, CUR_DIR
 
 
 class CLIValues(tuple):
@@ -112,6 +112,36 @@ def toggle_audio_profile():
     CLICommand(
         base_command,
         cwd=cwd,
+    )
+
+
+def increase_volume():
+    CLICommands(
+        [
+            CLICommand(
+                "pulsemixer",
+                args=["--change-volume", "+5", "--max-volume", "100"],
+            ),
+            CLICommand(
+                "aplay",
+                args=[f'{CUR_DIR}/beep2.wav'],
+            ),
+        ]
+    )
+
+
+def decrease_volume():
+    CLICommands(
+        [
+            CLICommand(
+                "pulsemixer",
+                args=["--change-volume", "-5", "--max-volume", "100"],
+            ),
+            CLICommand(
+                "aplay",
+                args=[f'{CUR_DIR}/beep2.wav'],
+            ),
+        ]
     )
 
 
