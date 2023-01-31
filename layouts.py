@@ -111,11 +111,14 @@ class Max(layout.Max):
             return
 
 
+BORDER_WIDTH = 2
+
+
 layouts = [
     Columns(
         border_focus=Color.CYAN.value,
         border_normal=Color.BLUE.value,
-        border_width=4,
+        border_width=BORDER_WIDTH,
         border_on_single=True,
         margin=3,
         margin_on_single=5,
@@ -126,7 +129,7 @@ layouts = [
     Max(
         border_focus=Color.CYAN.value,
         border_normal=Color.BLUE.value,
-        border_width=4,
-        margin=3,
+        border_width=BORDER_WIDTH,
+        margin=5,
     ),
 ]

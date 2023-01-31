@@ -4,6 +4,7 @@ from typing import Any, Iterable, List
 
 from libqtile import widget
 from libqtile.widget.base import _Widget
+from libqtile.widget.generic_poll_text import GenPollText
 from libqtile.widget.textbox import TextBox
 from libqtile.widget.volume import Volume
 
@@ -62,6 +63,38 @@ class Terminator(TextBox):
             else:
                 interval = self.scroll_interval
             self._scroll_timer = self.timeout_add(interval, self.do_scroll)
+
+
+class GenericVolume(GenPollText):
+    def __init__(self, **config):
+        super().__init__(**config)
+        self.volume = 0
+        self.func = self._poll_func
+        self.update_interval = 0.2
+        self._txt = ""
+
+    def _get_volume(self):
+        result = subprocess.check_output("pulsemixer --get-volume".split())
+        result = result.decode("utf-8").strip()
+        return int(result.split()[0])
+
+    def _poll_func(self):
+        vol = self._get_volume()
+        if vol != self.volume:
+            self.volume = vol
+            self._update_drawer()
+        return self._txt
+
+    def _update_drawer(self):
+        full_block = "█"
+        empty_block = "▓"
+        progress_bar = (
+            int(self.volume / 10) * full_block
+            + (10 - int(self.volume / 10)) * empty_block
+        )
+        self._txt = f" {progress_bar} {str(self.volume).rjust(3)}%"
+
+        subprocess.Popen(["dunstify", f"Volume: ", "-h", f"int:value:{self.volume}"])
 
 
 class Volume(Volume):

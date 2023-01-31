@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 qtile = "*"
+python-dotenv = "*"
 
 [dev-packages]
 isort = "*"

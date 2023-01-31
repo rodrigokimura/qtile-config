@@ -169,7 +169,7 @@ _shortcut_keys = [
         "d",
         lazy.run_extension(
             extension.CommandSet(
-                fontsize=14,
+                fontsize=15,
                 dmenu_prompt=">_ ",
                 foreground=Color.CYAN.value,
                 selected_foreground=Color.BACKGROUND.value,
@@ -187,14 +187,14 @@ _media_keys = [
     Key(
         [],
         "XF86AudioRaiseVolume",
-        lazy.spawn("amixer sset 'Master' 5%+"),
+        lazy.spawn("pulsemixer --change-volume +5 --max-volume 100"),
         lazy.spawn(f"aplay '{CUR_DIR}/beep2.wav'"),
         desc="Increase volume",
     ),
     Key(
         [],
         "XF86AudioLowerVolume",
-        lazy.spawn("amixer sset 'Master' 5%-"),
+        lazy.spawn("pulsemixer --change-volume -5 --max-volume 100"),
         lazy.spawn(f"aplay '{CUR_DIR}/beep2.wav'"),
         desc="Decrease volume",
     ),

@@ -3,6 +3,9 @@ import subprocess
 from typing import Any, Dict, Optional, Sequence, Tuple
 
 from libqtile.config import Screen
+from libqtile.log_utils import logger
+
+from meta_config import BLUETOOTH_DEVICE
 
 
 class CLIValues(tuple):
@@ -24,10 +27,11 @@ class CLICommand(subprocess.Popen):
         command: str,
         args: Optional[Sequence[str]] = None,
         options: Optional[CLIOptions] = None,
-        cwd: str = "/",
+        cwd: str = ".",
     ) -> None:
-        args = " ".join(str(i) for i in args)
-        command = f"{command} {args}"
+        if args:
+            args = " " + " ".join(str(i) for i in args)
+            command = f"{command} {args}"
         if options:
             command = f"{command} {options}"
         super().__init__(command.split(), cwd=cwd)
@@ -80,16 +84,16 @@ def generate_wallpapers(screens: Sequence[Screen]):
         [
             CLICommand(
                 base_command,
-                f"wp{index}.png",
+                [f"wp{index}.png"],
                 cwd=cwd,
                 options=options,
             )
             for index, options in wp_configs.items()
         ]
     )
-
     commands.wait()
 
+    logger.exception("TESTE: TESTE")
     for i, screen in enumerate(screens, start=1):
         screen.cmd_set_wallpaper(
             os.path.expanduser(f"~/dev/project_wallpaper/wp{i}.png"), mode="fill"
@@ -99,4 +103,21 @@ def generate_wallpapers(screens: Sequence[Screen]):
 def start_compositor():
     subprocess.Popen(
         "picom --experimental-backends".split(),
+    )
+
+
+def toggle_audio_profile():
+    base_command = "pipenv run python src/app.py"
+    cwd = os.path.expanduser("~/dev/project_audio")
+    CLICommand(
+        base_command,
+        cwd=cwd,
+    )
+
+
+def connect_bluetooth():
+    base_command = "bluetoothctl connect"
+    CLICommand(
+        base_command,
+        args=[BLUETOOTH_DEVICE],
     )

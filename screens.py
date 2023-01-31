@@ -5,20 +5,20 @@ from libqtile.config import Screen
 from libqtile.lazy import lazy
 
 from colors import Color
-from widgets import LeftPowerline, RightPowerline, Volume, shared_task_list
+from meta_config import BLUETOOTH_DEVICE
+from scripts import toggle_audio_profile
+from widgets import GenericVolume as Volume
+from widgets import LeftPowerline, RightPowerline, shared_task_list
 
 CUR_DIR = os.path.realpath(os.path.dirname(__file__))
 
 _terminal = "kitty"
-_wallpaper_name = "stanislausnationalforest"
 
 
 def _main_screen():
     top_bar_size = 26
     bottom_bar_size = 26
     return Screen(
-        wallpaper=f"~/Pictures/triple-monitor/{_wallpaper_name}_2.jpg",
-        wallpaper_mode="fill",
         top=bar.Bar(
             size=top_bar_size,
             widgets=[
@@ -88,10 +88,13 @@ def _main_screen():
                         emoji=True,
                         fmt="{} ",
                         step=5,
-                        mouse_callbacks={"Button3": lazy.spawn("pavucontrol -t 5")},
+                        mouse_callbacks={
+                            "Button3": lazy.spawn("pavucontrol -t 5"),
+                            "Button1": toggle_audio_profile,
+                        },
                     ),
                     widget.Bluetooth(
-                        hci="/dev_44_73_D6_A4_E8_6C",
+                        hci=f"/dev_{BLUETOOTH_DEVICE.replace(':', '_')}",
                         background=Color.RED.value,
                         fmt=" {} ",
                     ),
@@ -150,8 +153,6 @@ def _main_screen():
 def _secondary_screen_left():
     bottom_bar_size = 26
     return Screen(
-        wallpaper=f"~/Pictures/triple-monitor/{_wallpaper_name}_1.jpg",
-        wallpaper_mode="fill",
         bottom=bar.Bar(
             [
                 *LeftPowerline(
@@ -181,8 +182,6 @@ def _secondary_screen_left():
 def _secondary_screen_right():
     bottom_bar_size = 26
     return Screen(
-        wallpaper=f"~/Pictures/triple-monitor/{_wallpaper_name}_3.jpg",
-        wallpaper_mode="fill",
         bottom=bar.Bar(
             [
                 *LeftPowerline(
