@@ -5,5 +5,5 @@ lint:
 	@pipenv run isort .
 
 logs:
-	@cat ~/.local/share/qtile/qtile.log | grep "TESTE"
+	@cat ~/.local/share/qtile/qtile.log
 
