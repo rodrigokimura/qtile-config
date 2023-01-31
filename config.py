@@ -5,6 +5,7 @@ from colors import Color
 from keys import keys, mouse
 from layouts import layouts
 from screens import screens
+from scripts import generate_wallpapers, start_compositor
 
 keys = keys
 mouse = mouse
@@ -50,6 +51,5 @@ wmname = "qtile"
 
 @hook.subscribe.startup
 def autostart(*args, **kwargs):
-    import subprocess
-
-    subprocess.Popen(["picom", "--experimental-backends"])
+    start_compositor()
+    generate_wallpapers(screens)
