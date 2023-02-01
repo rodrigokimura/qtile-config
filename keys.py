@@ -7,8 +7,7 @@ from libqtile.lazy import lazy
 
 from colors import Color
 from commands import commands
-from meta_config import TERMINAL, CUR_DIR
-
+from meta_config import CUR_DIR, TERMINAL
 
 
 class Arrows(enum.Enum):

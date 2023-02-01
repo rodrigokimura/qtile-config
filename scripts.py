@@ -5,6 +5,7 @@ from typing import Any, Dict, Optional, Sequence, Tuple
 from libqtile.config import Screen
 from libqtile.log_utils import logger
 
+from colors import Color
 from meta_config import BLUETOOTH_DEVICE, CUR_DIR
 
 
@@ -30,10 +31,11 @@ class CLICommand(subprocess.Popen):
         cwd: str = ".",
     ) -> None:
         if args:
-            args = " " + " ".join(str(i) for i in args)
+            args = " ".join(str(i) for i in args)
             command = f"{command} {args}"
         if options:
             command = f"{command} {options}"
+        logger.exception(f"TEST: {command}")
         super().__init__(command.split(), cwd=cwd)
 
 
@@ -52,8 +54,9 @@ def generate_wallpapers(screens: Sequence[Screen]):
     cwd = os.path.expanduser("~/dev/project_wallpaper")
 
     colors = (
-        "#a57662",
-        "#182931",
+        Color.BLUE.value,
+        Color.CYAN.value,
+        Color.PURPLE.value,
     )
 
     wp_configs = {
@@ -61,21 +64,18 @@ def generate_wallpapers(screens: Sequence[Screen]):
             {
                 "start": (0, 0),
                 "end": (1920, 1080),
-                "colors": colors,
             }
         ),
         2: CLIOptions(
             {
                 "start": (0, -2333),
                 "end": (0, 1080),
-                "colors": colors,
             }
         ),
         3: CLIOptions(
             {
                 "start": (1920, 0),
                 "end": (0, 1080),
-                "colors": colors,
             }
         ),
     }
@@ -84,7 +84,7 @@ def generate_wallpapers(screens: Sequence[Screen]):
         [
             CLICommand(
                 base_command,
-                [f"wp{index}.png"],
+                [f"{CUR_DIR}/wallpapers/wp{index}.png", *colors],
                 cwd=cwd,
                 options=options,
             )
@@ -93,11 +93,8 @@ def generate_wallpapers(screens: Sequence[Screen]):
     )
     commands.wait()
 
-    logger.exception("TESTE: TESTE")
-    for i, screen in enumerate(screens, start=1):
-        screen.cmd_set_wallpaper(
-            os.path.expanduser(f"~/dev/project_wallpaper/wp{i}.png"), mode="fill"
-        )
+    for index, screen in enumerate(screens, start=1):
+        screen.cmd_set_wallpaper(f"{CUR_DIR}/wallpapers/wp{index}.png", mode="fill")
 
 
 def start_compositor():
@@ -124,7 +121,7 @@ def increase_volume():
             ),
             CLICommand(
                 "aplay",
-                args=[f'{CUR_DIR}/beep2.wav'],
+                args=[f"{CUR_DIR}/beep2.wav"],
             ),
         ]
     )
@@ -139,7 +136,7 @@ def decrease_volume():
             ),
             CLICommand(
                 "aplay",
-                args=[f'{CUR_DIR}/beep2.wav'],
+                args=[f"{CUR_DIR}/beep2.wav"],
             ),
         ]
     )

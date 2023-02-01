@@ -6,10 +6,8 @@ from libqtile.lazy import lazy
 
 from colors import Color
 from meta_config import BLUETOOTH_DEVICE, TERMINAL
-from scripts import toggle_audio_profile
 from widgets import GenericVolume as Volume
 from widgets import LeftPowerline, RightPowerline, shared_task_list
-
 
 
 def _main_screen():

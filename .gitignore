@@ -5,3 +5,4 @@
 *.pem
 *.log
 .pytest_cache/
+wallpapers/
