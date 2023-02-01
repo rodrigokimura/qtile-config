@@ -168,9 +168,9 @@ _shortcut_keys = [
             extension.CommandSet(
                 fontsize=15,
                 dmenu_prompt=">_ ",
-                foreground=Color.CYAN.value,
+                foreground=Color.ACCENT.value,
                 selected_foreground=Color.BACKGROUND.value,
-                selected_background=Color.CYAN.value,
+                selected_background=Color.ACCENT.value,
                 commands={
                     k: v for c in commands for k, v in c.as_command_set_dict().items()
                 },
@@ -230,6 +230,5 @@ mouse = [
         lazy.window.set_size_floating(),
         start=lazy.window.get_size(),
     ),
-    Click([Modifiers.META.value], "Button3", lazy.window.toggle_floating()),
-    Click([Modifiers.META.value], "Button2", lazy.window.toggle_fullscreen()),
+    Click([Modifiers.META.value], "Button2", lazy.window.toggle_floating()),
 ]

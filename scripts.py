@@ -54,9 +54,9 @@ def generate_wallpapers(screens: Sequence[Screen]):
     cwd = os.path.expanduser("~/dev/project_wallpaper")
 
     colors = (
-        Color.BLUE.value,
-        Color.CYAN.value,
-        Color.PURPLE.value,
+        Color.DARK.value,
+        Color.ACCENT.value,
+        Color.DARK.value,
     )
 
     wp_configs = {

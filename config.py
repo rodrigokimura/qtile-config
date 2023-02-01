@@ -15,6 +15,8 @@ widget_defaults = dict(
     font="Cascadia Code",
     fontsize=16,
     padding=2,
+    background=Color.BACKGROUND.value,
+    foreground=Color.FOREGROUND.value,
 )
 extension_defaults = widget_defaults.copy()
 
@@ -27,8 +29,8 @@ follow_mouse_focus = False
 bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(
-    border_focus=Color.GREEN.value,
-    border_normal=Color.PURPLE.value,
+    border_focus=Color.MID.value,
+    border_normal=Color.DARK.value,
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,

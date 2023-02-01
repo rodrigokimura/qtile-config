@@ -229,8 +229,8 @@ def _parse_text(text: str):
 def shared_task_list():
     return widget.TaskList(
         parse_text=_parse_text,
-        border=Color.GREEN.value,
-        foreground=Color.GREEN.value,
+        background=Color.BACKGROUND.value,
+        foreground=Color.ACCENT.value,
         highlight_method="border",
         rounded=True,
         icon_size=0,
@@ -239,5 +239,7 @@ def shared_task_list():
         max_title_width=150,
         title_width_method="uniform",
         width=200,
-        unfocused_border=Color.GRAY.value,
+        borderwidth=2,
+        border=Color.ACCENT.value,
+        unfocused_border=Color.DARK.value,
     )

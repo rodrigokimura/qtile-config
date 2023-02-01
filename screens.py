@@ -18,11 +18,15 @@ def _main_screen():
             size=top_bar_size,
             widgets=[
                 *LeftPowerline(
-                    widget.ThermalSensor(fmt=" {}", background=Color.RED.value),
+                    widget.ThermalSensor(
+                        fmt=" {}",
+                        background=Color.MID.value,
+                        foreground=Color.FOREGROUND.value,
+                    ),
                     (
                         widget.CPU(
                             fmt=" {}",
-                            background=Color.BLUE.value,
+                            background=Color.DARK.value,
                             mouse_callbacks={
                                 "Button1": lazy.spawn(TERMINAL + " -e bashtop")
                             },
@@ -33,7 +37,7 @@ def _main_screen():
                             line_width=1,
                             graph_color=Color.FOREGROUND.value,
                             border_color=Color.FOREGROUND.value,
-                            background=Color.BLUE.value,
+                            background=Color.DARK.value,
                             mouse_callbacks={
                                 "Button1": lazy.spawn(TERMINAL + " -e bashtop")
                             },
@@ -42,7 +46,7 @@ def _main_screen():
                     (
                         widget.Memory(
                             fmt="{}",
-                            background=Color.GREEN.value,
+                            background=Color.MID.value,
                             mouse_callbacks={
                                 "Button1": lazy.spawn(TERMINAL + " -e bashtop")
                             },
@@ -53,44 +57,44 @@ def _main_screen():
                             line_width=1,
                             graph_color=Color.FOREGROUND.value,
                             border_color=Color.FOREGROUND.value,
-                            background=Color.GREEN.value,
+                            background=Color.MID.value,
                             mouse_callbacks={
                                 "Button1": lazy.spawn(TERMINAL + " -e bashtop")
                             },
                         ),
                     ),
                     (
-                        widget.Net(fmt=" {}", background=Color.PURPLE.value),
+                        widget.Net(fmt=" {}", background=Color.DARK.value),
                         widget.NetGraph(
                             type="line",
                             border_width=1,
                             line_width=1,
                             graph_color=Color.FOREGROUND.value,
                             border_color=Color.FOREGROUND.value,
-                            background=Color.PURPLE.value,
+                            background=Color.DARK.value,
                         ),
                     ),
                 ).widgets,
                 widget.Spacer(bar.STRETCH),
                 *RightPowerline(
                     widget.OpenWeather(
-                        background=Color.ORANGE.value,
+                        background=Color.DARK.value,
                         location="Maringa, BR",
                         format="{main_temp: .0f}°{units_temperature} {icon} ({weather_details})",
                     ),
                     Volume(
-                        background=Color.GREEN.value,
+                        background=Color.MID.value,
                         mouse_callbacks={
                             "Button3": lazy.spawn("pavucontrol -t 5"),
                         },
                     ),
                     widget.Bluetooth(
                         hci=f"/dev_{BLUETOOTH_DEVICE.replace(':', '_')}",
-                        background=Color.RED.value,
+                        background=Color.DARK.value,
                         fmt=" {} ",
                     ),
                     widget.Systray(
-                        background=Color.RED.value,
+                        background=Color.DARK.value,
                     ),
                     terminator_size=top_bar_size - 2,
                 ).widgets,
@@ -107,12 +111,12 @@ def _main_screen():
                         inactive_text=" ◯",
                         active_color=Color.FOREGROUND.value,
                         inactive_color=Color.FOREGROUND.value,
-                        background=Color.GREEN.value,
+                        background=Color.MID.value,
                         foreground=Color.FOREGROUND.value,
                     ),
                     widget.CurrentLayoutIcon(
                         scale=0.7,
-                        background=Color.BLUE.value,
+                        background=Color.DARK.value,
                         foreground=Color.FOREGROUND.value,
                     ),
                     terminator_size=bottom_bar_size - 2,
@@ -121,12 +125,12 @@ def _main_screen():
                 *RightPowerline(
                     widget.Clipboard(
                         fmt="📋 {}",
-                        background=Color.GREEN.value,
+                        background=Color.MID.value,
                         max_width=20,
                     ),
                     widget.Clock(
                         format="📅 %d/%m/%Y %a 🕑 %H:%M ",
-                        background=Color.BLUE.value,
+                        background=Color.DARK.value,
                         mouse_callbacks={
                             "Button1": lazy.spawn(
                                 TERMINAL
@@ -152,12 +156,12 @@ def _secondary_screen_left():
                         inactive_text=" ◯",
                         active_color=Color.FOREGROUND.value,
                         inactive_color=Color.FOREGROUND.value,
-                        background=Color.GREEN.value,
+                        background=Color.MID.value,
                         foreground=Color.FOREGROUND.value,
                     ),
                     widget.CurrentLayoutIcon(
                         scale=0.7,
-                        background=Color.BLUE.value,
+                        background=Color.DARK.value,
                         foreground=Color.FOREGROUND.value,
                     ),
                     terminator_size=bottom_bar_size - 2,
@@ -181,12 +185,12 @@ def _secondary_screen_right():
                         inactive_text=" ◯",
                         active_color=Color.FOREGROUND.value,
                         inactive_color=Color.FOREGROUND.value,
-                        background=Color.GREEN.value,
+                        background=Color.MID.value,
                         foreground=Color.FOREGROUND.value,
                     ),
                     widget.CurrentLayoutIcon(
                         scale=0.7,
-                        background=Color.BLUE.value,
+                        background=Color.DARK.value,
                         foreground=Color.FOREGROUND.value,
                     ),
                     terminator_size=bottom_bar_size - 2,
@@ -195,6 +199,7 @@ def _secondary_screen_right():
                 widget.Spacer(),
             ],
             size=bottom_bar_size,
+            background=Color.BACKGROUND.value,
         ),
     )
 
