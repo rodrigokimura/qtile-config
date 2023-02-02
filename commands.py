@@ -12,6 +12,7 @@ class Command(NamedTuple):
 
 commands = [
     Command("code", "code", "Launch VSCode"),
+    Command("browser", "qutebrowser", "Launch qutebrowser"),
     Command("chrome", "google-chrome", "Launch Chrome"),
     Command(
         "edge",
