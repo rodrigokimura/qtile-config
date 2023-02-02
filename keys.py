@@ -158,12 +158,9 @@ _shortcut_keys = [
     ),
     Key(
         [
-            Modifiers.SHIFT.value,
-            Modifiers.CTRL.value,
-            Modifiers.ALT.value,
             Modifiers.META.value,
         ],
-        "d",
+        "Space",
         lazy.run_extension(
             extension.CommandSet(
                 fontsize=15,
