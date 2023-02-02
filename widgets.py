@@ -101,7 +101,9 @@ class GenericVolume(GenPollText):
         )
         self._txt = f" {progress_bar} {str(self.volume).rjust(3)}% "
 
-        subprocess.Popen(["dunstify", f"Volume: ", "-h", f"int:value:{self.volume}"])
+        subprocess.Popen(
+            f"dunstify Volume: -h int:value:{self.volume} -u LOW".split(" ")
+        )
 
 
 class Volume(Volume):
