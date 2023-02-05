@@ -53,6 +53,6 @@ wmname = "qtile"
 
 @hook.subscribe.startup
 def autostart(*args, **kwargs):
-    start_compositor()
+    # start_compositor()
     generate_wallpapers(screens)
-    connect_bluetooth()
+    # connect_bluetooth()

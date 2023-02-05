@@ -86,12 +86,12 @@ def _main_screen():
                         location="Maringa, BR",
                         format="{main_temp:.0f}°{units_temperature} {icon} ",
                     ),
-                    Volume(
-                        background=Color.MID.value,
-                        mouse_callbacks={
-                            "Button3": lazy.spawn("pavucontrol -t 5"),
-                        },
-                    ),
+                    # Volume(
+                    #     background=Color.MID.value,
+                    #     mouse_callbacks={
+                    #         "Button3": lazy.spawn("pavucontrol -t 5"),
+                    #     },
+                    # ),
                     widget.Bluetooth(
                         hci=f"/dev_{BLUETOOTH_DEVICE.replace(':', '_')}",
                         background=Color.DARK.value,

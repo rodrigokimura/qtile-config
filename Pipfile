@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 qtile = "*"
 python-dotenv = "*"
+psutil = "*"
+dbus-next = "*"
 
 [dev-packages]
 isort = "*"
