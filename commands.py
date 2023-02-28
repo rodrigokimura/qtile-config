@@ -11,6 +11,7 @@ class Command(NamedTuple):
 
 
 commands = [
+    Command("lvim", "kitty -e lvim", "Launch Lvim"),
     Command("code", "code", "Launch VSCode"),
     Command("browser", "qutebrowser", "Launch qutebrowser"),
     Command("chrome", "google-chrome-stable", "Launch Chrome"),
@@ -19,6 +20,7 @@ commands = [
         'microsoft-edge-stable --proxy-server="http://192.168.0.119:8899;https://192.168.0.119:8899"',
         "Launch Edge using proxy",
     ),
+    Command("postman", "postman", "Launch Postman"),
     Command("slack", "slack", "Launch Slack"),
     Command("discord", "discord", "Launch Discord"),
     Command("audio", "pavucontrol -t 5", "Launch Audio Settings"),

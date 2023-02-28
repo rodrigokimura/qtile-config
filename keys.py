@@ -1,5 +1,4 @@
 import enum
-import os
 
 from libqtile import extension
 from libqtile.config import Click, Drag, Key
@@ -11,10 +10,10 @@ from meta_config import CUR_DIR, TERMINAL
 
 
 class Arrows(enum.Enum):
-    LEFT = "Left"
-    RIGHT = "Right"
-    UP = "Up"
-    DOWN = "Down"
+    LEFT = "h"
+    RIGHT = "l"
+    UP = "k"
+    DOWN = "j"
 
 
 class Modifiers(enum.Enum):
@@ -139,7 +138,7 @@ _shortcut_keys = [
     ),
     Key([Modifiers.META.value], "w", lazy.window.kill(), desc="Kill focused window"),
     Key(
-        [Modifiers.META.value, "control"],
+        [Modifiers.META.value, Modifiers.CTRL.value],
         "r",
         lazy.reload_config(),
         desc="Reload the config",
@@ -157,10 +156,8 @@ _shortcut_keys = [
         desc="Open file manager",
     ),
     Key(
-        [
-            Modifiers.META.value,
-        ],
-        "Space",
+        [Modifiers.META.value],
+        "m",
         lazy.run_extension(
             extension.CommandSet(
                 fontsize=15,

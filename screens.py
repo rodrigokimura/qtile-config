@@ -1,9 +1,6 @@
-import os
-
 from libqtile import bar, widget
 from libqtile.config import Screen
 from libqtile.lazy import lazy
-from libqtile.widget.net import Net
 
 from colors import Color
 from meta_config import BLUETOOTH_DEVICE, TERMINAL
@@ -20,7 +17,7 @@ def _main_screen():
             widgets=[
                 *LeftPowerline(
                     widget.ThermalSensor(
-                        fmt=" 🌡 {}",
+                        fmt=" {}",
                         background=Color.MID.value,
                         foreground=Color.FOREGROUND.value,
                     ),
@@ -81,17 +78,17 @@ def _main_screen():
                 ).widgets,
                 widget.Spacer(bar.STRETCH),
                 *RightPowerline(
-                    widget.OpenWeather(
-                        background=Color.DARK.value,
-                        location="Maringa, BR",
-                        format="{main_temp:.0f}°{units_temperature} {icon} ",
-                    ),
-                    # Volume(
-                    #     background=Color.MID.value,
-                    #     mouse_callbacks={
-                    #         "Button3": lazy.spawn("pavucontrol -t 5"),
-                    #     },
+                    # widget.OpenWeather(
+                    #     background=Color.DARK.value,
+                    #     location="Maringa, BR",
+                    #     format="{main_temp:.0f}°{units_temperature} ",
                     # ),
+                    Volume(
+                        background=Color.MID.value,
+                        mouse_callbacks={
+                            "Button3": lazy.spawn("pavucontrol -t 5"),
+                        },
+                    ),
                     widget.Bluetooth(
                         hci=f"/dev_{BLUETOOTH_DEVICE.replace(':', '_')}",
                         background=Color.DARK.value,

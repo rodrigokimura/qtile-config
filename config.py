@@ -5,7 +5,13 @@ from colors import Color
 from keys import keys, mouse
 from layouts import layouts
 from screens import screens
-from scripts import connect_bluetooth, generate_wallpapers, start_compositor
+from scripts import (
+    configure_monitors,
+    connect_bluetooth,
+    connect_wifi,
+    generate_wallpapers,
+    start_compositor,
+)
 
 keys = keys
 mouse = mouse
@@ -53,6 +59,8 @@ wmname = "qtile"
 
 @hook.subscribe.startup
 def autostart(*args, **kwargs):
-    # start_compositor()
+    configure_monitors()
+    start_compositor()
     generate_wallpapers(screens)
-    # connect_bluetooth()
+    connect_bluetooth()
+    connect_wifi()

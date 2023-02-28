@@ -6,7 +6,7 @@ from libqtile.config import Screen
 from libqtile.log_utils import logger
 
 from colors import Color
-from meta_config import BLUETOOTH_DEVICE, CUR_DIR
+from meta_config import BLUETOOTH_DEVICE, CUR_DIR, WIFI_PASSWORD, WIFI_SSID
 
 
 class CLIValues(tuple):
@@ -49,7 +49,6 @@ class CLICommands:
 
 
 def generate_wallpapers(screens: Sequence[Screen]):
-
     base_command = "pipenv run python src/app.py"
     cwd = os.path.expanduser("~/dev/project_wallpaper")
 
@@ -97,10 +96,22 @@ def generate_wallpapers(screens: Sequence[Screen]):
         screen.cmd_set_wallpaper(f"{CUR_DIR}/wallpapers/wp{index}.png", mode="fill")
 
 
-def start_compositor():
-    subprocess.Popen(
-        "picom --experimental-backends".split(),
+def configure_monitors():
+    cmd = """
+    xrandr --output 'DisplayPort-0'--pos '0x0' --left-of 'HDMI-A-0'
+     --output 'HDMI-A-0' --pos '1920x0'
+     --output 'DVI-D-0' --pos '3840x0' --right-of 'HDMI-A-0'
+    """
+    cmd = cmd.replace("\n", "")
+    cwd = os.path.expanduser("~")
+    CLICommand(
+        cmd,
+        cwd=cwd,
     )
+
+
+def start_compositor():
+    subprocess.Popen("picom".split())
 
 
 def toggle_audio_profile():
@@ -147,4 +158,12 @@ def connect_bluetooth():
     CLICommand(
         base_command,
         args=[BLUETOOTH_DEVICE],
+    )
+
+
+def connect_wifi():
+    base_command = "nmcli device wifi connect"
+    CLICommand(
+        base_command,
+        args=[WIFI_SSID, "password", WIFI_PASSWORD],
     )
