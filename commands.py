@@ -1,3 +1,4 @@
+import os
 from typing import NamedTuple
 
 
@@ -11,7 +12,7 @@ class Command(NamedTuple):
 
 
 commands = [
-    Command("lvim", "kitty -e lvim", "Launch Lvim"),
+    Command("nvim", "kitty -e nvim", "Launch Neovim"),
     Command("code", "code", "Launch VSCode"),
     Command("browser", "qutebrowser", "Launch qutebrowser"),
     Command("chrome", "google-chrome-stable", "Launch Chrome"),
