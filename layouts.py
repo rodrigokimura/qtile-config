@@ -1,6 +1,6 @@
 from libqtile import layout
 
-from colors import Color
+from colors import kanagawa
 
 
 class Columns(layout.Columns):
@@ -116,8 +116,8 @@ BORDER_WIDTH = 2
 
 layouts = [
     Columns(
-        border_focus=Color.ACCENT.value,
-        border_normal=Color.DARK.value,
+        border_focus=kanagawa.base09,
+        border_normal=kanagawa.base0D,
         border_width=BORDER_WIDTH,
         border_on_single=True,
         margin=3,
@@ -127,8 +127,8 @@ layouts = [
         wrap_focus_stacks=False,
     ),
     Max(
-        border_focus=Color.ACCENT.value,
-        border_normal=Color.DARK.value,
+        border_focus=kanagawa.base09,
+        border_normal=kanagawa.base0D,
         border_width=BORDER_WIDTH,
         margin=5,
     ),

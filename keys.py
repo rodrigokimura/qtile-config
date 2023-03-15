@@ -4,7 +4,7 @@ from libqtile import extension
 from libqtile.config import Click, Drag, Key
 from libqtile.lazy import lazy
 
-from colors import Color
+from colors import kanagawa
 from commands import commands
 from meta_config import CUR_DIR, TERMINAL
 
@@ -162,9 +162,9 @@ _shortcut_keys = [
             extension.CommandSet(
                 fontsize=15,
                 dmenu_prompt=">_ ",
-                foreground=Color.ACCENT.value,
-                selected_foreground=Color.BACKGROUND.value,
-                selected_background=Color.ACCENT.value,
+                foreground=kanagawa.base0B,
+                selected_foreground=kanagawa.base00,
+                selected_background=kanagawa.base0B,
                 commands={
                     k: v for c in commands for k, v in c.as_command_set_dict().items()
                 },

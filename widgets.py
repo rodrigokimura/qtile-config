@@ -1,15 +1,46 @@
 import math
 import subprocess
-from typing import Any, Iterable, List
+from typing import Any, Iterable, List, Tuple, Union
 
-from libqtile import widget
+from libqtile import bar, hook, widget
+from libqtile.widget import base
 from libqtile.widget.base import _Widget
+from libqtile.widget.currentlayout import CurrentLayoutIcon
+from libqtile.widget.currentscreen import CurrentScreen as BuiltinCurrentScreen
 from libqtile.widget.generic_poll_text import GenPollText
 from libqtile.widget.textbox import TextBox
-from libqtile.widget.volume import Volume
+from libqtile.widget.volume import Volume as BuiltinVolume
 
-from colors import Color
+from colors import kanagawa
 from scripts import decrease_volume, increase_volume, toggle_audio_profile
+
+
+class CurrentScreen(BuiltinCurrentScreen):
+    def __init__(self, width=bar.CALCULATED, **config):
+        defaults = [
+            (
+                "active_background_color",
+                "00ff00",
+                "Background color when screen is active",
+            ),
+            (
+                "inactive_background_color",
+                "ff0000",
+                "Background color when screen is inactive",
+            ),
+        ]
+        base._TextBox.__init__(self, "", width, **config)
+        self.add_defaults(BuiltinCurrentScreen.defaults + defaults)
+
+    def update_text(self):
+        super().update_text()
+        if self.qtile.current_screen == self.bar.screen:
+            self.background = self.active_background_color
+            self.update(self.active_text)
+        else:
+            self.background = self.inactive_background_color
+            self.update(self.inactive_text)
+        self.draw()
 
 
 class Terminator(TextBox):
@@ -66,6 +97,28 @@ class Terminator(TextBox):
             self._scroll_timer = self.timeout_add(interval, self.do_scroll)
 
 
+class DynamicTerminator(Terminator):
+    def __init__(self, active_foreground: str, **config: Any):
+        super().__init__(**config)
+        self.active_foreground = active_foreground
+        self.inactive_foreground = self.foreground
+
+    def draw(self):
+        super().draw()
+
+    def _configure(self, qtile, bar):
+        base._TextBox._configure(self, qtile, bar)
+        hook.subscribe.current_screen_change(self.update_text)
+        self.update_text()
+
+    def update_text(self):
+        if self.qtile.current_screen == self.bar.screen:
+            self.foreground = self.active_foreground
+        else:
+            self.foreground = self.inactive_foreground
+        self.draw()
+
+
 class GenericVolume(GenPollText):
     def __init__(self, **config):
         super().__init__(**config)
@@ -106,7 +159,7 @@ class GenericVolume(GenPollText):
         )
 
 
-class Volume(Volume):
+class Volume(BuiltinVolume):
     def _update_drawer(self):
         super()._update_drawer()
         full_block = "█"
@@ -153,7 +206,7 @@ class RightPowerline:
         self,
         *widgets: List[_Widget],
         terminator_size: int = 24,
-        background: str = Color.BACKGROUND.value,
+        background: str = kanagawa.base00,
     ) -> None:
         self._widgets = []
         first = widgets[0]
@@ -176,13 +229,11 @@ class RightPowerline:
 
 
 class LeftPowerline:
-    widgets: List[_Widget]
-
     def __init__(
         self,
-        *widgets: List[_Widget],
+        *widgets: Union[_Widget, Tuple[_Widget, ...]],
         terminator_size: int = 24,
-        background: str = Color.BACKGROUND.value,
+        background: str = kanagawa.base00,
     ) -> None:
         self._widgets = []
         for i in range(len(widgets)):
@@ -231,8 +282,8 @@ def _parse_text(text: str):
 def shared_task_list():
     return widget.TaskList(
         parse_text=_parse_text,
-        background=Color.BACKGROUND.value,
-        foreground=Color.ACCENT.value,
+        background=kanagawa.base00,
+        foreground=kanagawa.base05,
         highlight_method="border",
         rounded=True,
         icon_size=0,
@@ -242,6 +293,6 @@ def shared_task_list():
         title_width_method="uniform",
         width=200,
         borderwidth=2,
-        border=Color.ACCENT.value,
-        unfocused_border=Color.DARK.value,
+        border=kanagawa.base09,
+        unfocused_border=kanagawa.base03,
     )

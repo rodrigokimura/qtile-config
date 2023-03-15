@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional, Sequence, Tuple
 from libqtile.config import Screen
 from libqtile.log_utils import logger
 
-from colors import Color
+from colors import kanagawa
 from meta_config import BLUETOOTH_DEVICE, CUR_DIR, WIFI_PASSWORD, WIFI_SSID
 
 
@@ -53,9 +53,9 @@ def generate_wallpapers(screens: Sequence[Screen]):
     cwd = os.path.expanduser("~/dev/project_wallpaper")
 
     colors = (
-        Color.DARK.value,
-        Color.ACCENT.value,
-        Color.DARK.value,
+        kanagawa.base05,
+        kanagawa.base0C,
+        kanagawa.base00,
     )
 
     wp_configs = {

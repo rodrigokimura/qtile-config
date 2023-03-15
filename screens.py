@@ -2,8 +2,9 @@ from libqtile import bar, widget
 from libqtile.config import Screen
 from libqtile.lazy import lazy
 
-from colors import Color
+from colors import kanagawa
 from meta_config import BLUETOOTH_DEVICE, TERMINAL
+from widgets import CurrentScreen, DynamicTerminator
 from widgets import GenericVolume as Volume
 from widgets import LeftPowerline, RightPowerline, shared_task_list
 
@@ -18,13 +19,13 @@ def _main_screen():
                 *LeftPowerline(
                     widget.ThermalSensor(
                         fmt=" {}",
-                        background=Color.MID.value,
-                        foreground=Color.FOREGROUND.value,
+                        background=kanagawa.base0C,
+                        foreground=kanagawa.base00,
                     ),
                     (
                         widget.CPU(
                             format=" {load_percent:.1f}%",
-                            background=Color.DARK.value,
+                            background=kanagawa.base02,
                             mouse_callbacks={
                                 "Button1": lazy.spawn(TERMINAL + " -e bashtop")
                             },
@@ -33,9 +34,9 @@ def _main_screen():
                             type="line",
                             border_width=1,
                             line_width=1,
-                            graph_color=Color.ACCENT.value,
-                            border_color=Color.ACCENT.value,
-                            background=Color.DARK.value,
+                            graph_color=kanagawa.base04,
+                            border_color=kanagawa.base04,
+                            background=kanagawa.base02,
                             mouse_callbacks={
                                 "Button1": lazy.spawn(TERMINAL + " -e bashtop")
                             },
@@ -44,7 +45,7 @@ def _main_screen():
                     (
                         widget.Memory(
                             format=" {MemPercent:.1f}%",
-                            background=Color.MID.value,
+                            background=kanagawa.base01,
                             mouse_callbacks={
                                 "Button1": lazy.spawn(TERMINAL + " -e bashtop")
                             },
@@ -53,9 +54,9 @@ def _main_screen():
                             type="line",
                             border_width=1,
                             line_width=1,
-                            graph_color=Color.ACCENT.value,
-                            border_color=Color.ACCENT.value,
-                            background=Color.MID.value,
+                            graph_color=kanagawa.base04,
+                            border_color=kanagawa.base04,
+                            background=kanagawa.base01,
                             mouse_callbacks={
                                 "Button1": lazy.spawn(TERMINAL + " -e bashtop")
                             },
@@ -64,15 +65,15 @@ def _main_screen():
                     (
                         widget.Net(
                             format=" {down} \u2193\u2191 {up}",
-                            background=Color.DARK.value,
+                            background=kanagawa.base02,
                         ),
                         widget.NetGraph(
                             type="line",
                             border_width=1,
                             line_width=1,
-                            graph_color=Color.ACCENT.value,
-                            border_color=Color.ACCENT.value,
-                            background=Color.DARK.value,
+                            graph_color=kanagawa.base04,
+                            border_color=kanagawa.base04,
+                            background=kanagawa.base02,
                         ),
                     ),
                 ).widgets,
@@ -84,47 +85,60 @@ def _main_screen():
                     #     format="{main_temp:.0f}°{units_temperature} ",
                     # ),
                     Volume(
-                        background=Color.MID.value,
+                        background=kanagawa.base02,
                         mouse_callbacks={
                             "Button3": lazy.spawn("pavucontrol -t 5"),
                         },
                     ),
                     widget.Bluetooth(
                         hci=f"/dev_{BLUETOOTH_DEVICE.replace(':', '_')}",
-                        background=Color.DARK.value,
+                        background=kanagawa.base01,
                         fmt="{} ",
                     ),
                     widget.Systray(
-                        background=Color.MID.value,
+                        background=kanagawa.base0C,
                         fmt="{} ",
                     ),
                     widget.Sep(
                         linewidth=0,
-                        background=Color.MID.value,
+                        background=kanagawa.base0C,
                     ),
                     terminator_size=top_bar_size - 2,
                 ).widgets,
             ],
             margin=0,
             border_width=0,
-            background=Color.BACKGROUND.value,
+            background=kanagawa.base00,
         ),
         bottom=bar.Bar(
             [
+                CurrentScreen(
+                    fmt=" {}",
+                    active_text="⬤",
+                    inactive_text="◯",
+                    active_color=kanagawa.base00,
+                    inactive_color=kanagawa.base00,
+                    active_background_color=kanagawa.base0B,
+                    inactive_background_color=kanagawa.base0C,
+                    background=kanagawa.base0C,
+                    foreground=kanagawa.base00,
+                ),
+                DynamicTerminator(
+                    fmt="",
+                    active_foreground=kanagawa.base0B,
+                    foreground=kanagawa.base0C,
+                    background=kanagawa.base0D,
+                    fontsize=26,
+                    padding=0,
+                    markup=False,
+                    hack_offset=0,
+                    font="MesloLGS NF",
+                ),
                 *LeftPowerline(
-                    widget.CurrentScreen(
-                        fmt=" {}",
-                        active_text="⬤",
-                        inactive_text="◯",
-                        active_color=Color.FOREGROUND.value,
-                        inactive_color=Color.FOREGROUND.value,
-                        background=Color.MID.value,
-                        foreground=Color.FOREGROUND.value,
-                    ),
                     widget.CurrentLayoutIcon(
                         scale=0.7,
-                        background=Color.DARK.value,
-                        foreground=Color.FOREGROUND.value,
+                        background=kanagawa.base0D,
+                        foreground=kanagawa.base00,
                     ),
                     terminator_size=bottom_bar_size - 2,
                 ).widgets,
@@ -132,12 +146,13 @@ def _main_screen():
                 *RightPowerline(
                     widget.Clipboard(
                         fmt="📋 {}",
-                        background=Color.MID.value,
+                        background=kanagawa.base02,
                         max_width=20,
                     ),
                     widget.Clock(
                         format="%d/%m/%Y %H:%M ",
-                        background=Color.DARK.value,
+                        background=kanagawa.base0D,
+                        foreground=kanagawa.base00,
                         mouse_callbacks={
                             "Button1": lazy.spawn(
                                 TERMINAL
@@ -157,20 +172,33 @@ def _secondary_screen_left():
     return Screen(
         bottom=bar.Bar(
             [
+                CurrentScreen(
+                    fmt=" {}",
+                    active_text="⬤",
+                    inactive_text="◯",
+                    active_color=kanagawa.base00,
+                    inactive_color=kanagawa.base00,
+                    active_background_color=kanagawa.base0B,
+                    inactive_background_color=kanagawa.base0C,
+                    background=kanagawa.base0C,
+                    foreground=kanagawa.base00,
+                ),
+                DynamicTerminator(
+                    fmt="",
+                    active_foreground=kanagawa.base0B,
+                    foreground=kanagawa.base0C,
+                    background=kanagawa.base0D,
+                    fontsize=26,
+                    padding=0,
+                    markup=False,
+                    hack_offset=0,
+                    font="MesloLGS NF",
+                ),
                 *LeftPowerline(
-                    widget.CurrentScreen(
-                        fmt=" {}",
-                        active_text="⬤",
-                        inactive_text="◯",
-                        active_color=Color.FOREGROUND.value,
-                        inactive_color=Color.FOREGROUND.value,
-                        background=Color.MID.value,
-                        foreground=Color.FOREGROUND.value,
-                    ),
                     widget.CurrentLayoutIcon(
                         scale=0.7,
-                        background=Color.DARK.value,
-                        foreground=Color.FOREGROUND.value,
+                        background=kanagawa.base0D,
+                        foreground=kanagawa.base00,
                     ),
                     terminator_size=bottom_bar_size - 2,
                 ).widgets,
@@ -178,6 +206,7 @@ def _secondary_screen_left():
                 widget.Spacer(bar.STRETCH),
             ],
             size=bottom_bar_size,
+            background=kanagawa.base00,
         ),
     )
 
@@ -187,20 +216,33 @@ def _secondary_screen_right():
     return Screen(
         bottom=bar.Bar(
             [
+                CurrentScreen(
+                    fmt=" {}",
+                    active_text="⬤",
+                    inactive_text="◯",
+                    active_color=kanagawa.base00,
+                    inactive_color=kanagawa.base00,
+                    active_background_color=kanagawa.base0B,
+                    inactive_background_color=kanagawa.base0C,
+                    background=kanagawa.base0C,
+                    foreground=kanagawa.base00,
+                ),
+                DynamicTerminator(
+                    fmt="",
+                    active_foreground=kanagawa.base0B,
+                    foreground=kanagawa.base0C,
+                    background=kanagawa.base0D,
+                    fontsize=26,
+                    padding=0,
+                    markup=False,
+                    hack_offset=0,
+                    font="MesloLGS NF",
+                ),
                 *LeftPowerline(
-                    widget.CurrentScreen(
-                        fmt=" {}",
-                        active_text="⬤",
-                        inactive_text="◯",
-                        active_color=Color.FOREGROUND.value,
-                        inactive_color=Color.FOREGROUND.value,
-                        background=Color.MID.value,
-                        foreground=Color.FOREGROUND.value,
-                    ),
-                    widget.CurrentLayoutIcon(
+                    widget.CurrentLayout(
                         scale=0.7,
-                        background=Color.DARK.value,
-                        foreground=Color.FOREGROUND.value,
+                        background=kanagawa.base0D,
+                        foreground=kanagawa.base00,
                     ),
                     terminator_size=bottom_bar_size - 2,
                 ).widgets,
@@ -208,7 +250,7 @@ def _secondary_screen_right():
                 widget.Spacer(),
             ],
             size=bottom_bar_size,
-            background=Color.BACKGROUND.value,
+            background=kanagawa.base00,
         ),
     )
 

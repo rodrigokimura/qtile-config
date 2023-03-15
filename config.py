@@ -1,7 +1,7 @@
 from libqtile import hook, layout
 from libqtile.config import Match
 
-from colors import Color
+from colors import kanagawa
 from keys import keys, mouse
 from layouts import layouts
 from screens import screens
@@ -21,8 +21,8 @@ widget_defaults = dict(
     font="Cascadia Code",
     fontsize=16,
     padding=2,
-    background=Color.BACKGROUND.value,
-    foreground=Color.FOREGROUND.value,
+    background=kanagawa.base00,
+    foreground=kanagawa.base05,
 )
 extension_defaults = widget_defaults.copy()
 
@@ -35,8 +35,8 @@ follow_mouse_focus = False
 bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(
-    border_focus=Color.MID.value,
-    border_normal=Color.DARK.value,
+    border_focus=kanagawa.base0C,
+    border_normal=kanagawa.base0D,
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
