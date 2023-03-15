@@ -4,7 +4,7 @@ from libqtile.lazy import lazy
 
 from colors import kanagawa
 from meta_config import BLUETOOTH_DEVICE, TERMINAL
-from widgets import CurrentScreen, DynamicTerminator
+from widgets import CurrentLayout, CurrentScreen, DynamicTerminator
 from widgets import GenericVolume as Volume
 from widgets import LeftPowerline, RightPowerline, shared_task_list
 
@@ -135,8 +135,9 @@ def _main_screen():
                     font="MesloLGS NF",
                 ),
                 *LeftPowerline(
-                    widget.CurrentLayoutIcon(
-                        scale=0.7,
+                    CurrentLayout(
+                        fontsize=30,
+                        padding=8,
                         background=kanagawa.base0D,
                         foreground=kanagawa.base00,
                     ),
@@ -195,8 +196,9 @@ def _secondary_screen_left():
                     font="MesloLGS NF",
                 ),
                 *LeftPowerline(
-                    widget.CurrentLayoutIcon(
-                        scale=0.7,
+                    CurrentLayout(
+                        fontsize=30,
+                        padding=8,
                         background=kanagawa.base0D,
                         foreground=kanagawa.base00,
                     ),
@@ -239,8 +241,10 @@ def _secondary_screen_right():
                     font="MesloLGS NF",
                 ),
                 *LeftPowerline(
-                    widget.CurrentLayout(
-                        scale=0.7,
+                    CurrentLayout(
+                        fmt="{}",
+                        fontsize=30,
+                        padding=8,
                         background=kanagawa.base0D,
                         foreground=kanagawa.base00,
                     ),

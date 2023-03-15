@@ -5,7 +5,7 @@ from typing import Any, Iterable, List, Tuple, Union
 from libqtile import bar, hook, widget
 from libqtile.widget import base
 from libqtile.widget.base import _Widget
-from libqtile.widget.currentlayout import CurrentLayoutIcon
+from libqtile.widget.currentlayout import CurrentLayout as BuiltinCurrentLayout
 from libqtile.widget.currentscreen import CurrentScreen as BuiltinCurrentScreen
 from libqtile.widget.generic_poll_text import GenPollText
 from libqtile.widget.textbox import TextBox
@@ -13,6 +13,51 @@ from libqtile.widget.volume import Volume as BuiltinVolume
 
 from colors import kanagawa
 from scripts import decrease_volume, increase_volume, toggle_audio_profile
+
+
+class CurrentLayout(base._TextBox):
+    """
+    Display the name of the current layout of the current group of the screen,
+    the bar containing the widget, is on.
+    """
+
+    def __init__(self, width=bar.CALCULATED, **config):
+        base._TextBox.__init__(self, "", width, **config)
+        self._icon_mapping = {
+            "max": "󰁌",
+            "columns": "",
+        }
+        self._fallback_icon = ""
+
+    def _configure(self, qtile, bar):
+        base._TextBox._configure(self, qtile, bar)
+        layout_id = self.bar.screen.group.current_layout
+        self.text = self._icon_mapping.get(
+            self.bar.screen.group.layouts[layout_id].name, self._fallback_icon
+        )
+        self.setup_hooks()
+
+        self.add_callbacks(
+            {
+                "Button1": qtile.cmd_next_layout,
+                "Button2": qtile.cmd_prev_layout,
+            }
+        )
+
+    def hook_response(self, layout, group):
+        if group.screen is not None and group.screen == self.bar.screen:
+            self.text = self._icon_mapping.get(layout.name, self._fallback_icon)
+            self.bar.draw()
+
+    def setup_hooks(self):
+        hook.subscribe.layout_change(self.hook_response)
+
+    def remove_hooks(self):
+        hook.unsubscribe.layout_change(self.hook_response)
+
+    def finalize(self):
+        self.remove_hooks()
+        base._TextBox.finalize(self)
 
 
 class CurrentScreen(BuiltinCurrentScreen):
