@@ -16,16 +16,10 @@ class CLIValues(tuple):
 
 class CLIOptions:
     def __init__(self, opts: Dict[str, Tuple[Any, ...]]) -> None:
-        self.opts = {
-            name: CLIValues(cli_args)
-            for name, cli_args in opts.items()
-        }
+        self.opts = {name: CLIValues(cli_args) for name, cli_args in opts.items()}
 
     def __str__(self) -> str:
-        return " ".join(
-            f"--{name} {cli_args}"
-            for name, cli_args in self.opts.items()
-        )
+        return " ".join(f"--{name} {cli_args}" for name, cli_args in self.opts.items())
 
 
 class CLICommand(subprocess.Popen):
@@ -67,23 +61,23 @@ def generate_wallpapers(screens: Sequence[Screen]):
         kanagawa.base0C,
         kanagawa.base00,
     )
-    radius = int(((1920*1.5)**2+(1080)**2)**.5)
+    radius = int(((1920 * 1.5) ** 2 + (1080) ** 2) ** 0.5)
     wp_configs = {
         1: CLIOptions(
             {
-                "center": (int(1920*1.5), 0),
+                "center": (int(1920 * 1.5), 0),
                 "radius": (radius,),
             }
         ),
         2: CLIOptions(
             {
-                "center": (int(1920/2), 0),
+                "center": (int(1920 / 2), 0),
                 "radius": (radius,),
             }
         ),
         3: CLIOptions(
             {
-                "center": (int(-1920/2), 0),
+                "center": (int(-1920 / 2), 0),
                 "radius": (radius,),
             }
         ),
@@ -103,8 +97,7 @@ def generate_wallpapers(screens: Sequence[Screen]):
     commands.wait()
 
     for index, screen in enumerate(screens, start=1):
-        screen.cmd_set_wallpaper(
-            f"{CUR_DIR}/wallpapers/wp{index}.png", mode="fill")
+        screen.cmd_set_wallpaper(f"{CUR_DIR}/wallpapers/wp{index}.png", mode="fill")
 
 
 def configure_monitors():

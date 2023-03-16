@@ -5,7 +5,6 @@ from typing import Any, Iterable, List, Tuple, Union
 from libqtile import bar, hook, widget
 from libqtile.widget import base
 from libqtile.widget.base import _Widget
-from libqtile.widget.currentlayout import CurrentLayout as BuiltinCurrentLayout
 from libqtile.widget.currentscreen import CurrentScreen as BuiltinCurrentScreen
 from libqtile.widget.generic_poll_text import GenPollText
 from libqtile.widget.textbox import TextBox
@@ -245,8 +244,6 @@ def right_terminator(foreground, background, fontsize=26):
 
 
 class RightPowerline:
-    widgets: List[_Widget]
-
     def __init__(
         self,
         *widgets: List[_Widget],
