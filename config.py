@@ -11,6 +11,8 @@ from scripts import (
     connect_wifi,
     generate_wallpapers,
     start_compositor,
+    start_systray_menu,
+    start_virtual_webcam,
 )
 
 keys = keys
@@ -62,5 +64,7 @@ def autostart(*args, **kwargs):
     configure_monitors()
     start_compositor()
     generate_wallpapers(screens)
+    start_virtual_webcam()
+    start_systray_menu()
     connect_bluetooth()
     connect_wifi()

@@ -35,7 +35,6 @@ class CLICommand(subprocess.Popen):
             command = f"{command} {args}"
         if options:
             command = f"{command} {options}"
-        logger.exception(f"TEST: {command}")
         super().__init__(command.split(), cwd=cwd)
 
 
@@ -116,6 +115,24 @@ def configure_monitors():
 
 def start_compositor():
     subprocess.Popen("picom".split())
+
+
+def start_virtual_webcam():
+    base_command = "make run"
+    cwd = os.path.expanduser("~/dev/project_webcam")
+    CLICommand(
+        base_command,
+        cwd=cwd,
+    )
+
+
+def start_systray_menu():
+    base_command = "make run"
+    cwd = os.path.expanduser("~/dev/project_systray")
+    CLICommand(
+        base_command,
+        cwd=cwd,
+    )
 
 
 def toggle_audio_profile():
