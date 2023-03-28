@@ -3,7 +3,6 @@ import subprocess
 from typing import Any, Dict, Optional, Sequence, Tuple
 
 from libqtile.config import Screen
-from libqtile.log_utils import logger
 
 from colors import kanagawa
 from meta_config import BLUETOOTH_DEVICE, CUR_DIR, WIFI_PASSWORD, WIFI_SSID
