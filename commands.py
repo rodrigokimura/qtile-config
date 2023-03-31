@@ -1,3 +1,4 @@
+import os
 from typing import NamedTuple
 
 
@@ -9,6 +10,12 @@ class Command(NamedTuple):
     def as_command_set_dict(self):
         return {self.name: self.command}
 
+
+open_calendar = Command(
+    "calendar",
+    f"kitty -d {os.path.expanduser('~/dev/project_calendar/')} -e pipenv run textual run src/app.py",
+    "Launch TUI calendar",
+)
 
 commands = [
     Command("nvim", "kitty -e nvim", "Launch Neovim"),
@@ -25,4 +32,5 @@ commands = [
     Command("discord", "discord", "Launch Discord"),
     Command("audio", "pavucontrol -t 5", "Launch Audio Settings"),
     Command("spotify", "flatpak run com.spotify.Client", "Launch Spotify"),
+    open_calendar,
 ]

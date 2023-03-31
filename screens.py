@@ -3,6 +3,7 @@ from libqtile.config import Screen
 from libqtile.lazy import lazy
 
 from colors import kanagawa
+from commands import open_calendar
 from meta_config import BLUETOOTH_DEVICE, TERMINAL
 from widgets import CurrentLayout, CurrentScreen, DynamicTerminator
 from widgets import GenericVolume as Volume
@@ -154,12 +155,7 @@ def _main_screen():
                         format="%d/%m/%Y %H:%M ",
                         background=kanagawa.base0D,
                         foreground=kanagawa.base00,
-                        mouse_callbacks={
-                            "Button1": lazy.spawn(
-                                TERMINAL
-                                + ' --hold -e python3 -c "from datetime import datetime; from calendar import TextCalendar; now = datetime.now(); TextCalendar().prmonth(now.year, now.month)"'
-                            )
-                        },
+                        mouse_callbacks={"Button1": lazy.spawn(open_calendar.command)},
                     ),
                 ).widgets,
             ],

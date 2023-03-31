@@ -187,3 +187,12 @@ def connect_wifi():
         base_command,
         args=[WIFI_SSID, "password", WIFI_PASSWORD],
     )
+
+
+def start_calendar():
+    base_command = "make run"
+    cwd = os.path.expanduser("~/dev/project_calendar")
+    CLICommand(
+        base_command,
+        cwd=cwd,
+    )
