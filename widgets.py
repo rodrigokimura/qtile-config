@@ -312,12 +312,14 @@ def _parse_text(text: str):
         text = text.split(" - ")[-1]
     if "google chrome" in text:
         text = "chrome"
-    if "firefox" in text:
+    elif "firefox" in text:
         text = "firefox"
-    if "visual studio code" in text:
+    elif "visual studio code" in text:
         text = "vscode"
-    if "edge" in text:
+    elif "edge" in text:
         text = "edge"
+    elif "nvim" in text:
+        text = text.split("/")[-1]
     return text.lower()
 
 
